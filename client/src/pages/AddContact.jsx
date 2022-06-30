@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import api from "../services/api";
+import { toastSuccess, toastError } from "../services/toast";
 
 const AddContact = () => {
   const [user, setUser] = useState({
@@ -17,7 +19,21 @@ const AddContact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
+    api
+      .post("/api/add", user)
+      .then((res) => {
+        toastSuccess(res.data.message);
+        setUser({
+          first_name: "",
+          last_name: "",
+          email: "",
+          phone_number: "",
+        });
+      })
+      .catch((err) => {
+        toastError(err.response.data.message);
+        console.error(err);
+      });
   };
 
   return (
@@ -29,7 +45,7 @@ const AddContact = () => {
               Personal Information
             </h3>
             <p className="mt-1 text-sm text-gray-600">
-              Insert your personal information to create a new contact.
+              Insert information to create a new contact.
             </p>
           </div>
         </div>

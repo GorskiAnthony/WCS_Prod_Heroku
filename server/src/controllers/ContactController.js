@@ -19,19 +19,19 @@ class ContactController {
 
     res.status(201).json({
       status: "success",
-      message: "User created",
+      message: "Good, you contact is save",
     });
   };
 
   static delete = async (req, res) => {
     await prisma.user.delete({
       where: {
-        id: req.body.id,
+        id: req.params.id,
       },
     });
     res.status(200).json({
       status: "success",
-      message: "user is deleted",
+      message: "Oh, you user is deleted",
     });
   };
 }

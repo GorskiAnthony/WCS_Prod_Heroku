@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import { PhoneIcon, MailIcon, UserRemoveIcon } from "@heroicons/react/solid";
+import api from "../services/api";
+import { ContactContext } from "../context/ContactContext";
+import { toastSuccess, toastError } from "../services/toast";
 
-const Card = ({ id, last_name, first_name, email, phone_number, avatar }) => {
+const Card = ({ id, last_name, first_name, email, phone_number }) => {
+  const { contacts, setContacts } = useContext(ContactContext);
   const handleDelete = (userID) => {
-    console.log("delete user ", userID);
+    api
+      .delete(`/api/delete/${userID}`)
+      .then((res) => {
+        toastSuccess(res.data.message);
+        setContacts(contacts.filter((contact) => contact.id !== userID));
+      })
+      .catch((err) => {
+        toastError(err.response.data.message);
+        console.error(err);
+      });
   };
+
   return (
     <div className="flex flex-col">
       <img
-        src={avatar}
+        src={`https://robohash.org/${id}.png?size=300x300&set=set1`}
         alt={`${first_name} ${last_name}`}
         className="rounded-lg h-60 w-full bg-gray-200  hover:shadow-lg"
       />
