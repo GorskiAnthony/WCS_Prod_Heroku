@@ -8,6 +8,7 @@ const cors = require("cors");
 const frontend = path.join(__dirname, "..", "..", "client", "dist");
 
 app.use(logger("dev"));
+app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:3000",
