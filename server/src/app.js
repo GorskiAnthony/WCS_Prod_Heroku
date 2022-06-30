@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const logger = require("morgan");
-const router = require("../router/index");
+const router = require("./router/index");
 const cors = require("cors");
 
 const frontend = path.join(__dirname, "..", "..", "client", "dist");
